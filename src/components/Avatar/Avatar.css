@@ -1,0 +1,69 @@
+/* Базовый контейнер аватара */
+.avatar-container {
+  display: inline-flex; /* Чтобы занимал место по содержимому */
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  overflow: hidden; /* Скрываем все, что выходит за границы */
+  user-select: none;
+  background-color: #e0e0e0; /* Фоновый цвет для инициалов и плейсхолдера */
+  color: #757575; /* Цвет текста/иконки по умолчанию */
+  font-weight: 500;
+  margin: 5px; /* Отступ для Storybook */
+}
+
+/* Стили для изображения */
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Масштабируем изображение, сохраняя пропорции */
+  display: block; /* Убираем лишний отступ снизу */
+}
+
+/* Стили для инициалов */
+.avatar-initials {
+  text-align: center;
+  line-height: 1; /* Для лучшего выравнивания */
+  color: #333; /* Делаем цвет текста темнее для лучшей читаемости на цветном фоне */
+}
+
+/* Стили для плейсхолдера (иконки) */
+.avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.avatar-placeholder svg {
+  display: block;
+  width: 60%;
+  height: 60%;
+  fill: currentColor;
+}
+
+/* Размеры */
+.avatar--small {
+  width: 24px;
+  height: 24px;
+  font-size: 0.75rem; /* 12px */
+}
+.avatar--medium {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem; /* 16px */
+}
+.avatar--large {
+  width: 56px;
+  height: 56px;
+  font-size: 1.25rem; /* 20px */
+}
+
+/* Форма */
+.avatar--circle {
+  border-radius: 50%;
+}
+.avatar--square {
+  border-radius: 4px; /* Небольшое скругление для квадрата */
+} 

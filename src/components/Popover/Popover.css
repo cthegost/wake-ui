@@ -1,0 +1,13 @@
+/* Стили для блока поповера (визуал + анимация) */
+.popover-content {
+  background-color: white;
+  padding: 10px 15px; /* Возвращаем padding */
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 0.9rem; /* Возвращаем стили контента */
+  color: #333;
+  z-index: 1010; /* z-index нужен здесь */
+  /* overflow: hidden; */ /* Можно убрать, если нет проблем */
+  transition-property: opacity, transform;
+  /* transition-duration: 150ms; */
+}

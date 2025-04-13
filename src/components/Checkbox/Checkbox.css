@@ -1,0 +1,95 @@
+/* Контейнер для выравнивания чекбокса и лейбла */
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+/* Внешний label как обертка */
+.checkbox-label-wrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: inherit; /* Наследуем курсор от контейнера */
+}
+
+/* Скрытие оригинального чекбокса */
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* Визуальное представление чекбокса (квадратик) */
+.checkbox-visual {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #adb5bd; /* Серая рамка */
+  border-radius: 3px;
+  margin-right: 8px; /* Отступ от текста */
+  position: relative;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  flex-shrink: 0; /* Предотвращаем сжатие */
+}
+
+/* Иконки внутри (галочка и минус) */
+.checkbox-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0); /* Скрыты по умолчанию */
+  width: 14px; /* <--- Увеличиваем размер */
+  height: 14px; /* <--- Увеличиваем размер */
+  fill: white; /* Цвет иконки */
+  transition: transform 0.15s ease-in-out;
+}
+
+/* Стили для состояния checked */
+.checkbox-input:checked + .checkbox-visual {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.checkbox-input:checked + .checkbox-visual .checkbox-icon--checked {
+  transform: translate(-50%, -50%) scale(1); /* Показываем галочку */
+}
+
+/* Стили для состояния indeterminate */
+.checkbox-container--indeterminate .checkbox-input + .checkbox-visual {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+/* Убеждаемся, что галочка скрыта в indeterminate состоянии */
+.checkbox-container--indeterminate .checkbox-input:checked + .checkbox-visual .checkbox-icon--checked {
+    transform: translate(-50%, -50%) scale(0);
+}
+.checkbox-container--indeterminate .checkbox-input + .checkbox-visual .checkbox-icon--indeterminate {
+   transform: translate(-50%, -50%) scale(1); /* Показываем минус */
+}
+
+
+/* Стили для состояния disabled */
+.checkbox-container--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.checkbox-container--disabled .checkbox-label-wrapper {
+    cursor: not-allowed;
+}
+
+
+/* Стиль для текстового лейбла */
+.checkbox-text-label {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Состояние фокуса (для доступности) */
+.checkbox-input:focus + .checkbox-visual {
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #80bdff;
+} 

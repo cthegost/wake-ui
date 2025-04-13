@@ -1,0 +1,94 @@
+/* Контейнер для выравнивания переключателя и лейбла */
+.switch-container {
+  display: inline-flex; /* Чтобы контейнер занимал место по содержимому */
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle; /* Лучшее выравнивание в строке */
+  margin: 5px; /* Небольшой отступ для Storybook */
+}
+
+/* Скрытие оригинального чекбокса */
+.switch-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* Визуальная обертка переключателя */
+.switch-label {
+  display: inline-block;
+  position: relative;
+  width: 40px;  /* Ширина переключателя */
+  height: 22px; /* Высота переключателя */
+  cursor: pointer;
+}
+
+/* Дорожка переключателя */
+.switch-track {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* Цвет неактивной дорожки */
+  border-radius: 34px; /* Скругление */
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Ползунок переключателя */
+.switch-thumb {
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;  /* Размер ползунка */
+  height: 18px; /* Должен быть меньше высоты дорожки */
+  background-color: white;
+  border-radius: 50%; /* Круглый ползунок */
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Стили для состояния "включено" */
+.switch-input:checked + .switch-label .switch-track {
+  background-color: #007bff; /* Цвет активной дорожки */
+}
+
+.switch-input:checked + .switch-label .switch-thumb {
+  transform: translateX(18px); /* Сдвиг ползунка вправо */
+                               /* Значение сдвига = ширина дорожки - ширина ползунка - (2 * отступ слева) */
+                               /* 40px - 18px - (2 * 2px) = 18px */
+}
+
+/* Стили для состояния "отключено" (disabled) */
+.switch-container--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.switch-container--disabled .switch-label {
+  cursor: not-allowed;
+}
+
+/* Стиль для текстового лейбла рядом */
+.switch-text-label {
+  margin-left: 8px; /* Отступ от переключателя */
+  cursor: pointer; /* Чтобы клик по тексту тоже работал */
+  font-size: 1rem;
+  color: #333;
+}
+
+.switch-container--disabled .switch-text-label {
+    cursor: not-allowed;
+}
+
+/* Состояние фокуса (для доступности) */
+/* Убираем стандартную обводку фокуса */
+/* 
+.switch-input:focus + .switch-label .switch-track {
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+} 
+*/ 

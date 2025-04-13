@@ -1,0 +1,198 @@
+/* Контейнер для инпута, лейбла и ошибки */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem; /* Отступ снизу */
+  width: 100%; /* По умолчанию занимает всю доступную ширину */
+  max-width: 400px; /* Ограничим максимальную ширину для демонстрации */
+  position: relative; /* Для позиционирования outline лейбла */
+}
+
+/* --- Стили для Standard Label (variant='standard') --- */
+
+/* Стиль для стандартного лейбла (над полем) */
+.input-label {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Затемнение стандартного лейбла при ошибке */
+.input-container--error .input-label {
+    color: #dc3545;
+}
+
+/* --- Стили для Outline Label (variant='outline') --- */
+
+/* Убираем стандартный label для outline варианта */
+.input-container--label-outline .input-label {
+    display: none;
+}
+
+/* Стили для fieldset, который будет рамкой */
+.input-fieldset {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0; /* Убираем стандартный padding */
+  margin: 0; /* Убираем стандартный margin */
+  transition: border-color 0.2s ease-in-out;
+  position: relative; /* Для корректной работы legend */
+}
+
+/* Стили для legend, содержащего лейбл */
+.input-legend {
+  padding: 0; /* Без паддингов */
+  margin-left: 8px;
+  font-size: 0.75rem; /* Размер важен для расчета ширины выреза */
+  line-height: 0; /* Схлопываем по высоте */
+  max-width: 0.01px;
+  visibility: hidden;
+  transition: max-width 0.15s cubic-bezier(0.0, 0, 0.2, 1) 50ms; /* Анимация выреза */
+}
+.input-legend span {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    opacity: 0; /* Невидимый текст */
+}
+
+/* Плавающий лейбл */
+.input-label-floating {
+  position: absolute;
+  top: 0; /* Начальное положение */
+  left: 8px; /* Отступ слева */
+  padding: 0 4px; /* Отступы по бокам */
+  color: #6c757d; /* Цвет неактивного лейбла */
+  pointer-events: none; /* Не мешает кликам на инпут */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 16px); /* Ограничение ширины */
+  transform-origin: left top;
+  /* Анимация */
+  transition: transform 0.2s cubic-bezier(0.0, 0, 0.2, 1),
+              color 0.2s cubic-bezier(0.0, 0, 0.2, 1),
+              font-size 0.2s cubic-bezier(0.0, 0, 0.2, 1); /* Добавляем font-size в transition */
+
+  /* Начальное положение (как плейсхолдер) - выравниваем по центру инпута */
+  font-size: 1rem;
+  transform: translateY(calc(0.8rem + 1px)); /* Выравнивание по вертикали = половина паддинга + половина бордера */
+}
+
+/* Состояние лейбла "всплывшее" (при фокусе или значении) */
+/* Используем :focus-within на fieldset и :not(:placeholder-shown) на input */
+.input-fieldset:focus-within .input-label-floating,
+.input-field:not(:placeholder-shown) + .input-label-floating { 
+  transform: translateY(-50%) scale(0.75); /* Поднимаем, уменьшаем */
+  color: #007bff; /* Активный цвет */
+  background-color: white; /* Фон для перекрытия рамки */
+}
+
+/* Открытие выреза в legend при всплытии лейбла */
+.input-fieldset:focus-within .input-legend,
+.input-field:not(:placeholder-shown) + .input-label-floating + .input-legend, /* Не сработает, legend раньше */
+/* Корректный селектор: ищем legend внутри fieldset, если input НЕ пустой ИЛИ fieldset в фокусе */
+.input-container--label-outline .input-field:not(:placeholder-shown) ~ .input-legend,
+.input-container--label-outline .input-fieldset:focus-within .input-legend 
+{
+   max-width: 1000px; /* Раскрываем вырез (любое достаточно большое значение) */
+}
+
+/* Цвет всплывшего лейбла при ошибке */
+.input-container--error .input-fieldset:focus-within .input-label-floating,
+.input-container--error .input-field:not(:placeholder-shown) + .input-label-floating { 
+  color: #dc3545;
+}
+
+/* Стили fieldset при фокусе */
+.input-fieldset:focus-within {
+  border-color: #007bff;
+  /* Тень убираем отсюда, она не нужна для floating label */
+  /* box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); */
+}
+
+/* Стили fieldset при ошибке */
+.input-container--error .input-fieldset {
+  border-color: #dc3545;
+}
+/* Стили legend при ошибке и фокусе/значении */
+.input-container--error .input-fieldset:focus-within .input-legend,
+.input-container--error .input-field:not(:placeholder-shown) ~ .input-legend {
+    color: #dc3545;
+}
+
+/* Стили fieldset при ошибке и фокусе */
+/* .input-container--error .input-fieldset:focus-within {
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+} */
+
+/* --- Общие стили для Input Field --- */
+
+.input-field {
+  /* padding: 0.8rem 0.8rem 0.4rem; */ /* Убираем специфичный padding */
+  padding: 0.6rem 0.8rem; /* Возвращаем стандартный padding */
+  /* border: none; */ /* Убираем это */
+  border: 1px solid #ccc; /* Возвращаем стандартную рамку */
+  /* border-radius: 0; */ /* Убираем обнуление */
+  border-radius: 4px; /* Возвращаем стандартное скругление */
+  font-size: 1rem;
+  color: #212529; /* <--- Явно задаем цвет текста */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
+  /* background: none; */ /* Оставляем фон по умолчанию для standard */
+  outline: none; 
+}
+
+/* Убираем рамку и скругление и ставим спец. паддинг для input внутри fieldset (outline) */
+.input-fieldset .input-field {
+    border: none;
+    border-radius: 0;
+    background: none; 
+    padding: 1.2rem 0.8rem 0.4rem; 
+    color: #212529; /* <--- Явно задаем цвет текста здесь еще раз */
+}
+
+/* Стили при фокусе для standard варианта */
+.input-field:focus {
+  /* box-shadow: none; */ /* Убираем это, тень нужна для standard */
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Убираем box-shadow с инпута при фокусе, только если он внутри fieldset */
+.input-fieldset .input-field:focus {
+    box-shadow: none;
+}
+
+/* Стили инпута при ошибке для standard */
+.input-field--error {
+   /* border-color убран, он на fieldset */
+   border-color: #dc3545; /* Возвращаем рамку ошибки для standard */
+}
+
+/* Стили инпута при ошибке только внутри fieldset (убираем рамку) */
+.input-fieldset .input-field--error {
+    border-color: transparent; /* Или border: none; */
+}
+
+/* Убираем box-shadow с инпута при ошибке и фокусе */
+.input-field--error:focus {
+  /* box-shadow: none; */ /* Убираем это, тень нужна для standard */
+   box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+
+/* Убираем box-shadow с инпута при ошибке и фокусе только внутри fieldset */
+.input-fieldset .input-field--error:focus {
+    box-shadow: none;
+}
+
+/* Стиль для сообщения об ошибке (без изменений) */
+.input-error-message {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: #dc3545;
+} 
