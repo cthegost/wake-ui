@@ -5,6 +5,14 @@
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cthegost/wake-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cthegost/wake-ui/issues"
+  },
+  "homepage": "https://github.com/cthegost/wake-ui#readme",
   "files": [
     "dist"
   ],
