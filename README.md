@@ -53,6 +53,7 @@ import {
   Loader,
   AlertProvider,
   useAlert,
+  RichTextEditor,
   SelectOption
 } from 'wake-ui';
 
@@ -64,6 +65,7 @@ function App() {
   const [selectValue, setSelectValue] = useState<string | number | null>(null);
   const [sliderValue, setSliderValue] = useState<number>(50);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editorContent, setEditorContent] = useState('<p>Начальный контент <strong>редактора</strong>!</p>');
 
   // Пример использования useAlert
   const { showAlert } = useAlert();
@@ -74,6 +76,12 @@ function App() {
       description: `Это пример уведомления типа ${status}.`,
       duration: 4000, // Закроется через 4 секунды
     });
+  };
+
+  const handleEditorChange = (htmlContent: string) => {
+    setEditorContent(htmlContent);
+    // Здесь можно делать что-то с HTML (например, сохранять)
+    console.log(htmlContent);
   };
 
   const selectOptions: SelectOption[] = [
@@ -187,6 +195,16 @@ function App() {
           <Button variant="filled" color="danger" onClick={() => handleShowAlert('danger')}>Показать Danger</Button>
         </div>
 
+        {/* RichTextEditor */}
+        <div>
+          <h2>Текстовый редактор</h2>
+          <RichTextEditor 
+            initialContent={editorContent} 
+            onChange={handleEditorChange} 
+            placeholder="Введите текст..."
+          />
+        </div>
+
       </div>
     </AlertProvider>
   );
@@ -210,6 +228,12 @@ export default App;
 *   **Select**: Выпадающий список для выбора одного значения из предложенных опций.
 *   **Switch**: Переключатель (вкл/выкл) с возможностью добавления текстового лейбла.
 *   **Slider**: Ползунок для выбора числового значения в заданном диапазоне. Поддерживает горизонтальную и вертикальную ориентацию (`orientation`).
+*   **RichTextEditor**: Редактор форматированного текста (WYSIWYG) на базе [TipTap](https://tiptap.dev/). 
+    *   Предоставляет панель инструментов с базовыми функциями: **жирный**, **курсив**, **зачеркнутый**, **заголовки (H1-H3)**, **маркированный и нумерованный списки**, **цитата**, **выравнивание текста** (по левому краю, центру, правому краю), **вставка изображения по URL**, **отмена/повтор**.
+    *   Поддерживает вставку изображений из буфера обмена.
+    *   Поддерживает `initialContent` (HTML), `onChange` (возвращает HTML), `editable` (режим чтения), `placeholder`.
+    *   Позволяет добавлять кастомные элементы управления в панель инструментов через проп `renderCustomControls={(editor) => <Ваши_Кнопки />}`.
+    *   Требует установки зависимостей: `npm install @tiptap/react @tiptap/starter-kit @tiptap/extension-heading @tiptap/extension-bullet-list @tiptap/extension-ordered-list @tiptap/extension-blockquote @tiptap/extension-text-align @tiptap/extension-image @tiptap/extension-dropcursor react-icons`.
 
 ### Обратная связь и индикаторы (Feedback & Indicators)
 *   **Loader**: CSS-спиннер для индикации загрузки. Размер задается через проп `size` (число в px или строка).

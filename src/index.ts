@@ -16,4 +16,15 @@ export { default as RadioGroup } from './components/Radio/RadioGroup';
 export { default as ButtonGroup } from './components/ButtonGroup/ButtonGroup';
 export { default as Badge } from './components/Badge/Badge';
 export { default as Divider } from './components/Divider/Divider';
-export { default as Tooltip } from './components/Tooltip/Tooltip'; 
+export { default as Tooltip } from './components/Tooltip/Tooltip';
+export { default as Alert } from './components/Alert/Alert';
+export type { AlertProps, AlertStatus } from './components/Alert/Alert';
+export { AlertProvider, useAlert } from './components/Alert/AlertProvider';
+export type { AlertState } from './components/Alert/AlertProvider';
+export { default as RichTextEditor } from './components/RichTextEditor/RichTextEditor';
+export type { RichTextEditorProps } from './components/RichTextEditor/RichTextEditor';
+
+// Стили
+// Если ваши стили собираются отдельно (например, rollup-plugin-postcss извлекает их в styles.css),
+// то этот импорт здесь не нужен для сборки, но может быть полезен для автодополнения IDE.
+// import './styles/main.css'; // Убедитесь, что путь правильный 

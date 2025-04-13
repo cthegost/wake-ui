@@ -1,0 +1,156 @@
+/* RichTextEditor.css */
+
+.rte-container {
+  border: 1px solid #ced4da; /* Граница как у стандартного инпута */
+  border-radius: 0.375rem; /* Скругление углов */
+  background-color: #fff; /* Белый фон */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.rte-container:focus-within {
+  border-color: #86b7fe; /* Цвет границы при фокусе (как у Bootstrap) */
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Тень при фокусе */
+}
+
+.rte-menubar {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #dee2e6; /* Разделитель панели */
+  background-color: #f8f9fa; /* Фон панели */
+  border-top-left-radius: calc(0.375rem - 1px); /* Скругление углов */
+  border-top-right-radius: calc(0.375rem - 1px);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rte-menubar button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.rte-menubar button:hover {
+  background-color: #e9ecef;
+}
+
+.rte-menubar button.is-active {
+  background-color: #cfe2ff;
+  color: #052c65;
+}
+
+.rte-menubar button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.rte-content {
+  padding: 0.5rem 0.75rem; /* Внутренние отступы области редактирования */
+  min-height: 100px; /* Минимальная высота */
+  outline: none; /* Убираем стандартный outline */
+  line-height: 1.5;
+  color: #212529;
+}
+
+/* Стили для выравнивания текста */
+.ProseMirror p[style*="text-align: center"],
+.ProseMirror h1[style*="text-align: center"],
+.ProseMirror h2[style*="text-align: center"],
+.ProseMirror h3[style*="text-align: center"],
+.ProseMirror h4[style*="text-align: center"],
+.ProseMirror h5[style*="text-align: center"],
+.ProseMirror h6[style*="text-align: center"] {
+  text-align: center;
+}
+
+.ProseMirror p[style*="text-align: right"],
+.ProseMirror h1[style*="text-align: right"],
+.ProseMirror h2[style*="text-align: right"],
+.ProseMirror h3[style*="text-align: right"],
+.ProseMirror h4[style*="text-align: right"],
+.ProseMirror h5[style*="text-align: right"],
+.ProseMirror h6[style*="text-align: right"] {
+  text-align: right;
+}
+
+/* Стили для изображений */
+.ProseMirror img {
+  max-width: 100%; /* Чтобы изображения не вылезали за контейнер */
+  height: auto;   /* Сохраняем пропорции */
+  display: block; /* Блочный элемент для отступов */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Стили для выделения выбранного изображения */
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 3px solid #68cef8;
+}
+
+/* Стили для плейсхолдера */
+.rte-content[data-placeholder]::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    color: #6c757d; /* Цвет плейсхолдера */
+    pointer-events: none;
+    height: 0px; /* чтобы не мешал кликам */
+}
+
+/* Базовые стили для контента от StarterKit (можно расширять) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror {
+  outline: none; /* Убеждаемся, что у Prosemirror нет своего аутлайна */
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+  line-height: 1.1;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding: 0 1rem;
+}
+
+.ProseMirror blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(13, 110, 253, 0.25);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid #dee2e6;
+  margin: 1rem 0;
+}
+
+.ProseMirror pre {
+  background: #f1f3f5;
+  color: #343a40;
+  font-family: monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.ProseMirror code {
+  background-color: rgba(99, 110, 123, 0.2);
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
+  font-size: 85%;
+} 
