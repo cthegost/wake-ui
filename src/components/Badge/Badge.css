@@ -1,0 +1,97 @@
+/* Базовые стили Badge */
+.badge {
+  display: inline-flex; /* Чтобы выравнивался с текстом */
+  align-items: center;
+  justify-content: center; /* Центрируем контент (полезно для цифр) */
+  padding: 0.2em 0.6em; /* Немного скорректируем padding */
+  font-size: 0.75rem; /* Маленький размер шрифта */
+  font-weight: 600; /* Полужирный */
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 9999px; /* Делаем края полностью круглыми */
+  box-sizing: border-box;
+  min-width: 1.5em; /* Минимальная ширина для круглого вида с 1 цифрой */
+}
+
+/* Переменные для цветов (можно вынести в глобальные) */
+:root {
+  --badge-primary-bg: #007bff;
+  --badge-primary-text: white;
+  --badge-secondary-bg: #6c757d;
+  --badge-secondary-text: white;
+  --badge-success-bg: #28a745;
+  --badge-success-text: white;
+  --badge-warning-bg: #ffc107;
+  --badge-warning-text: #212529;
+  --badge-danger-bg: #dc3545;
+  --badge-danger-text: white;
+}
+
+/* --- Варианты --- */
+
+/* Filled (Заливка) */
+.badge--filled {
+  /* Цвета задаются через colorScheme */
+}
+
+/* Outline (Контур) */
+.badge--outline {
+  background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+   /* Цвета задаются через colorScheme */
+}
+
+/* --- Цветовые схемы --- */
+
+/* Primary */
+.badge--filled.badge--color-primary {
+  background-color: var(--badge-primary-bg);
+  color: var(--badge-primary-text);
+}
+.badge--outline.badge--color-primary {
+  border-color: var(--badge-primary-bg);
+  color: var(--badge-primary-bg);
+}
+
+/* Secondary */
+.badge--filled.badge--color-secondary {
+  background-color: var(--badge-secondary-bg);
+  color: var(--badge-secondary-text);
+}
+.badge--outline.badge--color-secondary {
+  border-color: var(--badge-secondary-bg);
+  color: var(--badge-secondary-bg);
+}
+
+/* Success */
+.badge--filled.badge--color-success {
+  background-color: var(--badge-success-bg);
+  color: var(--badge-success-text);
+}
+.badge--outline.badge--color-success {
+  border-color: var(--badge-success-bg);
+  color: var(--badge-success-bg);
+}
+
+/* Warning */
+.badge--filled.badge--color-warning {
+  background-color: var(--badge-warning-bg);
+  color: var(--badge-warning-text);
+}
+.badge--outline.badge--color-warning {
+  border-color: var(--badge-warning-bg);
+  color: var(--badge-warning-bg);
+}
+
+/* Danger */
+.badge--filled.badge--color-danger {
+  background-color: var(--badge-danger-bg);
+  color: var(--badge-danger-text);
+}
+.badge--outline.badge--color-danger {
+  border-color: var(--badge-danger-bg);
+  color: var(--badge-danger-bg);
+} 

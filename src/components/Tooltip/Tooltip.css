@@ -1,0 +1,28 @@
+/* Контейнер тултипа */
+.tooltip-content {
+  background-color: #343a40; /* Темный фон */
+  color: white; /* Белый текст */
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1070; /* Выше, чем модалка, но ниже чем Popover? */
+  pointer-events: none; /* Чтобы не мешал взаимодействию */
+  max-width: 250px;
+}
+
+/* Стрелка тултипа */
+.tooltip-arrow {
+    fill: #343a40; /* Тот же цвет, что и фон тултипа */
+}
+
+/* Анимация (простая, можно усложнить) */
+/* 
+.tooltip-content {
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+}
+.tooltip-content[data-open="true"] {
+    opacity: 1;
+}
+*/ 

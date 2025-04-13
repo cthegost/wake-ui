@@ -1,0 +1,136 @@
+/* Контейнер для выравнивания радио и лейбла */
+.radio-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+/* Внешний label как обертка */
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: inherit; /* Наследуем курсор от контейнера */
+}
+
+/* Скрытие оригинального radio инпута */
+.radio-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* Визуальное представление радио (кружок) */
+.radio-visual {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #adb5bd; /* Серая рамка */
+  border-radius: 50%; /* Круглый */
+  margin-right: 8px;
+  position: relative;
+  transition: border-color 0.15s ease-in-out;
+  flex-shrink: 0;
+}
+
+/* Внутренняя точка */
+.radio-visual-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px; /* Размер точки */
+  height: 10px;
+  background-color: #007bff; /* Цвет точки */
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0); /* Скрыта по умолчанию */
+  transition: transform 0.15s ease-in-out;
+}
+
+/* Стили для состояния checked */
+.radio-input:checked + .radio-label .radio-visual {
+  border-color: #007bff; /* Синяя рамка */
+}
+.radio-input:checked + .radio-label .radio-visual-dot {
+  transform: translate(-50%, -50%) scale(1); /* Показываем точку */
+}
+
+/* Стили для состояния disabled */
+.radio-container--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.radio-container--disabled .radio-label {
+  cursor: not-allowed;
+}
+.radio-input:disabled + .radio-label .radio-visual {
+  border-color: #ced4da;
+  background-color: #e9ecef;
+}
+.radio-input:checked:disabled + .radio-label .radio-visual-dot {
+  background-color: #adb5bd;
+}
+
+/* Стиль для текстового лейбла рядом */
+.radio-text-label {
+  cursor: inherit; /* Наследуем курсор от контейнера */
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.2;
+}
+
+.radio-container--disabled .radio-text-label {
+    color: #6c757d;
+}
+
+/* Состояние фокуса (для доступности) */
+.radio-input:focus-visible + .radio-label .radio-visual {
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* --- Стили RadioGroup --- */
+
+.radio-group-container {
+  display: inline-flex;
+  flex-direction: column; /* По умолчанию вертикально */
+  margin: 5px;
+  padding: 5px;
+  /* border: 1px solid #eee; /* Для отладки */
+}
+
+.radio-group-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.radio-group-options {
+    display: flex;
+    flex-direction: column; /* По умолчанию вертикально */
+    gap: 5px; /* Промежуток между опциями */
+}
+
+/* Горизонтальный layout */
+.radio-group--horizontal .radio-group-options {
+    flex-direction: row;
+    flex-wrap: wrap; /* Перенос на новую строку при необходимости */
+    gap: 15px; /* Увеличиваем промежуток для горизонтального */
+}
+
+/* Отключенное состояние группы */
+.radio-group--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.radio-group--disabled .radio-group-label {
+    color: #6c757d;
+}
+
+/* Контейнеры внутри группы не должны иметь свой margin */
+.radio-group-options .radio-container {
+    margin: 0;
+} 

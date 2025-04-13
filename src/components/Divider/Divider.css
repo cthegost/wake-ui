@@ -1,0 +1,35 @@
+.divider {
+  background-color: #dee2e6; /* Цвет разделителя (серый) */
+  border: none;
+  opacity: 0.8;
+}
+
+/* Горизонтальный разделитель */
+.divider--horizontal {
+  height: 1px;
+  width: 100%;
+  margin: 1rem 0; /* Отступы сверху и снизу */
+}
+
+/* Вертикальный разделитель */
+.divider--vertical {
+  width: 1px;
+  height: auto; /* Высота зависит от родителя */
+  align-self: stretch; /* Растягиваем по высоте flex-контейнера */
+  margin: 0 1rem; /* Отступы слева и справа */
+}
+
+/* --- Вариант с отступами (inset) --- */
+
+.divider--inset.divider--horizontal {
+  width: auto; /* Ширина будет определяться отступами */
+  margin-left: 1rem; /* Отступ слева */
+  margin-right: 1rem; /* Отступ справа */
+}
+
+.divider--inset.divider--vertical {
+  height: auto; /* Высота будет определяться отступами */
+  align-self: auto; /* Убираем растягивание */
+  margin-top: 1rem; /* Отступ сверху */
+  margin-bottom: 1rem; /* Отступ снизу */
+} 

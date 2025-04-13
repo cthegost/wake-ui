@@ -1,0 +1,63 @@
+.button-group {
+  display: inline-flex; /* Чтобы группа была строчным блоком */
+  /* Сбрасываем внешний margin у кнопок внутри группы */
+}
+
+/* --- Горизонтальная ориентация --- */
+.button-group--horizontal {
+  flex-direction: row;
+}
+
+.button-group--horizontal > .button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+  /* Убираем левую границу (или margin) для outline/filled */
+  margin-left: -1px; /* Для перекрытия границы */
+}
+
+.button-group--horizontal > .button:first-child:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.button-group--horizontal > .button:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -1px; /* Для перекрытия границы */
+}
+
+/* Убираем внутренний margin у всех кнопок */
+.button-group--horizontal > .button {
+    margin: 0;
+}
+
+/* --- Вертикальная ориентация --- */
+.button-group--vertical {
+  flex-direction: column;
+}
+
+.button-group--vertical > .button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+  /* Убираем верхнюю границу (или margin) */
+  margin-top: -1px; /* Для перекрытия границы */
+}
+
+.button-group--vertical > .button:first-child:not(:last-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.button-group--vertical > .button:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -1px; /* Для перекрытия границы */
+}
+
+/* Убираем внутренний margin у всех кнопок */
+.button-group--vertical > .button {
+    margin: 0;
+}
+
+/* Для text кнопок в группе не нужно перекрытие границ */
+.button-group > .button.button--text {
+    margin: 0 !important; /* Убеждаемся, что margin сброшен */
+} 
