@@ -9,6 +9,7 @@ button {
   font-family: sans-serif; /* Добавим шрифт для единообразия */
   line-height: 1; /* Для лучшего выравнивания текста */
   margin: 5px; /* Добавим небольшой отступ между кнопками в Storybook */
+  position: relative; /* Нужно для абсолютного позиционирования лоадера */
 }
 
 button:disabled {
@@ -56,4 +57,56 @@ button:disabled {
 }
 .button--outline:disabled {
     border-color: #6c757d; /* Серая граница для disabled outline */
-} 
+}
+
+/* Состояние загрузки */
+.button--loading {
+    /* Можно добавить pointer-events: none, но disabled уже это делает */
+}
+
+/* Контейнер лоадера */
+.button__loader-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; /* Для выравнивания лоадера, если он не ровно 16x16 */
+    align-items: center;
+    justify-content: center;
+    /* Стили для лоадера внутри кнопки (цвет и т.д.) */
+    /* Лоадер сам по себе имеет синий цвет, нужно сделать его белым для filled кнопок */
+}
+
+/* Скрываем контент кнопки при загрузке */
+.button--loading .button__content {
+    opacity: 0; /* Делаем текст прозрачным */
+}
+
+/* --- Стили лоадера в зависимости от варианта кнопки --- */
+
+/* Для filled кнопок делаем лоадер белым */
+.button--filled.button--loading .button__loader-container .loader-spinner {
+    border-color: white;
+    border-bottom-color: transparent;
+}
+
+/* Для outline кнопок оставляем лоадер синим (или цветом текста) */
+.button--outline.button--loading .button__loader-container .loader-spinner {
+    border-color: #007bff; /* Используем основной цвет */
+    border-bottom-color: transparent;
+}
+
+/* Для text кнопок тоже оставляем лоадер синим (или цветом текста) */
+.button--text.button--loading .button__loader-container .loader-spinner {
+    border-color: #007bff; /* Используем основной цвет */
+    border-bottom-color: transparent;
+}
+
+/* Для disabled кнопок (если они тоже могут быть loading, хотя это странно) */
+.button--loading:disabled .button__loader-container .loader-spinner {
+    border-color: #adb5bd; /* Серый цвет */
+    border-bottom-color: transparent;
+}
+
+/* Если кнопка disabled И НЕ loading, лоадер не должен показываться */
+/* Но наша логика в TSX уже это обрабатывает */ 

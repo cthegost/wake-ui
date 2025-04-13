@@ -1,0 +1,106 @@
+/* Оверлей (фон) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный */
+  display: flex;
+  align-items: center; /* Центрирование по умолчанию */
+  justify-content: center;
+  z-index: 1000; /* Убедимся, что поверх другого контента */
+}
+
+/* Контейнер контента модального окна */
+.modal-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  max-width: 500px; /* Пример максимальной ширины */
+  width: 90%;
+  max-height: 90vh; /* Ограничение высоты */
+  overflow-y: auto; /* Добавляем скролл при необходимости */
+  z-index: 1001;
+  font-family: inherit; /* <-- Наследуем шрифт */
+}
+
+/* Кнопка закрытия */
+.modal-close-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #6c757d;
+  padding: 0;
+}
+
+.modal-close-button:hover,
+.modal-close-button:focus {
+  color: #343a40;
+  outline: none;
+}
+
+/* Заголовок */
+.modal-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600; /* Делаем шрифт жирнее */
+  /* Оставляем место для кнопки закрытия */
+  padding-right: 2rem;
+}
+
+/* Тело модального окна */
+.modal-body {
+  /* Стили для содержимого, если нужно */
+  /* Например, отступы */
+  padding-top: 0.5rem;
+}
+
+/* Анимация выезжания снизу */
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+  .modal-overlay {
+    align-items: flex-end; /* Прижимаем к низу */
+  }
+
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+    max-height: 85vh; /* Ограничиваем высоту на мобильных */
+    margin: 0;
+    border-radius: 16px 16px 0 0; /* Скругляем только верхние углы */
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15); /* Тень сверху */
+    padding-top: 1rem; /* Немного уменьшим верхний паддинг */
+    padding-bottom: 1rem;
+    animation: slideInFromBottom 0.3s ease-out forwards;
+  }
+
+  .modal-title {
+      padding-top: 0.5rem; /* Добавим отступ сверху для заголовка */
+  }
+
+  .modal-close-button {
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 1.8rem; /* Сделаем крестик чуть больше */
+  }
+} 

@@ -1,4 +1,4 @@
-# WUI - Ваша библиотека UI компонентов
+# Wake-UI - Ваша библиотека UI компонентов
 
 [![npm version](https://badge.fury.io/js/wui.svg)](https://badge.fury.io/js/wake-ui)
 
@@ -40,38 +40,128 @@ import 'wake-ui/dist/styles.css';
 
 ```jsx
 import React, { useState } from 'react';
-import { Button, Input, Popover } from 'wake-ui';
+import { 
+  Button, 
+  Input, 
+  Popover, 
+  Switch, 
+  Avatar, 
+  Checkbox, 
+  Select, 
+  Slider, 
+  Modal, 
+  Loader,
+  SelectOption // Импортируем тип для Select
+} from 'wake-ui';
 
 function App() {
+  // Состояния для новых компонентов
   const [inputValue, setInputValue] = useState('');
-  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [selectValue, setSelectValue] = useState<string | number | null>(null);
+  const [sliderValue, setSliderValue] = useState<number>(50);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const selectOptions: SelectOption[] = [
+    { value: 'opt1', label: 'Опция 1' },
+    { value: 'opt2', label: 'Опция 2' },
+    { value: 'opt3', label: 'Опция 3' },
+  ];
 
   return (
-    <div>
-      <h1>Пример использования WUI</h1>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '20px' }}>
+      <h1>Примеры использования WUI</h1>
 
-      <Button variant="filled" onClick={() => alert('Клик!')}>
-        Закрашенная кнопка
-      </Button>
+      {/* Button */} 
+      <div>
+        <Button variant="filled" onClick={() => alert('Клик!')}>Filled</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="text">Text</Button>
+        <Button variant="filled" loading>Loading...</Button>
+        <Button variant="filled" disabled>Disabled</Button>
+      </div>
 
-      <Button variant="outline">
-        Контурная кнопка
-      </Button>
-
+      {/* Input */} 
       <Input
         label="Имя пользователя"
         labelVariant="outline"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Введите имя"
+        style={{ maxWidth: '300px' }}
       />
 
-       <Popover
-         placement="bottom"
-         trigger={<Button variant="text">Открыть Popover</Button>}
+      {/* Popover (требует @floating-ui/react) */} 
+      <Popover
+         placement="bottom-start"
+         trigger={<Button>Открыть Popover</Button>}
        >
          <div>Содержимое поповера!</div>
        </Popover>
+
+      {/* Switch */} 
+       <Switch 
+         label="Включить настройку" 
+         checked={isSwitchOn} 
+         onChange={(e) => setIsSwitchOn(e.target.checked)} 
+       />
+
+      {/* Avatar */} 
+       <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+         <Avatar src="https://via.placeholder.com/40" alt="User Avatar" size={40} />
+         <Avatar name="Anton Havkin" size={40} />
+         <Avatar size={40} /> {/* Без src и name */} 
+       </div>
+
+      {/* Checkbox */} 
+      <Checkbox 
+        label="Согласен с условиями" 
+        checked={isChecked} 
+        onChange={(e) => setIsChecked(e.target.checked)} 
+      />
+
+      {/* Select (требует @floating-ui/react) */} 
+      <Select 
+        label="Выберите опцию"
+        options={selectOptions} 
+        value={selectValue} 
+        onChange={setSelectValue} 
+        placeholder="Не выбрано"
+        style={{ maxWidth: '300px' }}
+      />
+
+       {/* Slider */} 
+       <Slider 
+         label="Уровень громкости"
+         min={0} 
+         max={100} 
+         value={sliderValue} 
+         onChange={setSliderValue} 
+         showValue 
+         style={{ maxWidth: '300px' }}
+       />
+
+      {/* Modal */} 
+      <div>
+        <Button onClick={() => setIsModalOpen(true)}>Открыть модальное окно</Button>
+        <Modal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+          title="Заголовок модалки"
+        >
+          <p>Это содержимое модального окна.</p>
+          <Button variant="outline" onClick={() => setIsModalOpen(false)}>Закрыть</Button>
+        </Modal>
+      </div>
+
+      {/* Loader */} 
+      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <Loader size={16} />
+        <Loader size={32} />
+        <Loader size="3rem" />
+        <span>Загрузка...</span>
+      </div>
 
     </div>
   );
@@ -83,14 +173,16 @@ export default App;
 
 ## Доступные компоненты
 
-*   **Button**: Кнопки с вариантами `filled`, `outline`, `text`.
+*   **Button**: Кнопки с вариантами `filled`, `outline`, `text`. Поддерживает состояние `disabled` и `loading`.
 *   **Input**: Поле ввода с поддержкой `label`, `error`, `placeholder` и вариантами лейбла (`standard`, `outline`).
 *   **Popover**: Всплывающее окно, привязанное к элементу-триггеру.
 *   **Switch**: Переключатель (вкл/выкл) с возможностью добавления текстового лейбла.
 *   **Avatar**: Компонент для отображения аватаров пользователей или изображений по умолчанию.
 *   **Checkbox**: Флажок (чекбокс) с поддержкой неопределенного состояния (`indeterminate`).
 *   **Select**: Выпадающий список для выбора одного значения из предложенных опций.
-*   **Slider**: Ползунок для выбора числового значения в заданном диапазоне.
+*   **Slider**: Ползунок для выбора числового значения в заданном диапазоне. Поддерживает горизонтальную и вертикальную ориентацию (`orientation`).
+*   **Modal**: Модальное окно для отображения контента поверх основного интерфейса.
+*   **Loader**: CSS-спиннер для индикации загрузки. Размер задается через проп `size` (число в px или строка).
 
 ## Локальная разработка (Storybook)
 

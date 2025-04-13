@@ -11,6 +11,7 @@ interface SliderProps {
   label?: string;
   showValue?: boolean; // Переименовал showValues
   className?: string;
+  orientation?: 'horizontal' | 'vertical'; // <-- Добавляем ориентацию
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -23,13 +24,28 @@ const Slider: React.FC<SliderProps> = ({
   label,
   showValue = false, // Переименовал
   className,
+  orientation = 'horizontal', // <-- Значение по умолчанию
 }) => {
   const [currentValue, setCurrentValue] = useState(value);
-  const inputRef = useRef<HTMLInputElement>(null); // Один ref
+  const inputRef = useRef<HTMLInputElement>(null);
   const rangeRef = useRef<HTMLDivElement>(null);
+  const trackContainerRef = useRef<HTMLDivElement>(null); // Ref для контейнера дорожки
 
+  // Callback для получения размера контейнера дорожки
+  const getTrackSize = useCallback(() => {
+      if (!trackContainerRef.current) return 0;
+      return orientation === 'vertical'
+        ? trackContainerRef.current.offsetHeight
+        : trackContainerRef.current.offsetWidth;
+  }, [orientation]);
+
+  // Callback для получения процента
   const getPercent = useCallback(
-    (val: number) => Math.round(((val - min) / (max - min)) * 100),
+    (val: number) => {
+        const range = max - min;
+        if (range === 0) return 0;
+        return Math.round(((val - min) / range) * 100);
+    },
     [min, max]
   );
 
@@ -38,44 +54,53 @@ const Slider: React.FC<SliderProps> = ({
     setCurrentValue(value);
   }, [value]);
 
-  // Обновление выделенного диапазона
+  // Обновление выделенного диапазона (теперь учитывает ориентацию)
   useEffect(() => {
     const percent = getPercent(currentValue);
     if (rangeRef.current) {
-      rangeRef.current.style.left = `0%`; // Всегда от начала
-      rangeRef.current.style.width = `${percent}%`; // До текущего значения
+      if (orientation === 'vertical') {
+        rangeRef.current.style.bottom = `0%`;
+        rangeRef.current.style.height = `${percent}%`;
+        rangeRef.current.style.left = '0'; // Сброс горизонтальных стилей
+        rangeRef.current.style.width = '100%';
+      } else {
+        rangeRef.current.style.left = `0%`;
+        rangeRef.current.style.width = `${percent}%`;
+        rangeRef.current.style.bottom = '0'; // Сброс вертикальных стилей
+        rangeRef.current.style.height = '100%';
+      }
     }
-    // Обновляем позицию ползунка в CSS для лучшей синхронизации (необязательно, т.к. input сам двигается)
-    // if (inputRef.current) {
-    //   inputRef.current.style.setProperty('--thumb-percent', `${percent}%`);
-    // }
-  }, [currentValue, getPercent]);
+  }, [currentValue, getPercent, orientation]);
 
   // Вызов onChange при отпускании
   const triggerOnChange = () => {
      if (inputRef.current) {
-         onChange(+inputRef.current.value); // Передаем актуальное значение input
+         onChange(+inputRef.current.value);
      }
   };
 
   // Обновление внутреннего состояния при движении
    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(+event.target.value);
-     // Можно добавить проп для real-time onChange здесь, если нужно
-     // onChange(+event.target.value);
   };
 
 
   const containerClassName = [
-      'slider-container', // Обновляем классы
+      'slider-container',
+      `slider-container--${orientation}`,
       disabled ? 'slider--disabled' : '',
       className,
+  ].filter(Boolean).join(' ');
+
+  const sliderClassName = [
+      'slider',
+      `slider--${orientation}`,
   ].filter(Boolean).join(' ');
 
   return (
     <div className={containerClassName}>
        {label && <label className="slider-label">{label}</label>}
-      <div className="slider"> {/* Обновляем классы */}
+      <div className={sliderClassName}> {/* Добавляем класс ориентации */}
         <input
           type="range"
           ref={inputRef}
@@ -86,37 +111,42 @@ const Slider: React.FC<SliderProps> = ({
           onChange={handleInputChange}
           onMouseUp={triggerOnChange}
           onTouchEnd={triggerOnChange}
-          className="slider__thumb" // Один ползунок
+          className="slider__thumb"
           disabled={disabled}
+          // Используем data-атрибут вместо нестандартного orient
+          data-orient={orientation}
         />
 
-        <div className="slider__track-container"> {/* Обновляем классы */}
+        <div ref={trackContainerRef} className="slider__track-container"> {/* Добавляем ref */}
           <div className="slider__track" />
           <div ref={rangeRef} className="slider__range" />
-          {/* Добавляем деления, если step задан */}
-           {step && (max - min) / step <= 20 && // Показываем деления, если их не слишком много
+          {/* Обновляем позиционирование делений */}
+           {step && (max - min) / step <= 20 &&
               Array.from({ length: (max - min) / step + 1 }).map((_, i) => {
                 const tickValue = min + i * step;
                 const percent = getPercent(tickValue);
-                // Не показываем деления для min и max, т.к. они на краях
-                if (tickValue === min || tickValue === max) return null; 
+                if (tickValue === min || tickValue === max) return null;
+                const style = orientation === 'vertical'
+                    ? { bottom: `${percent}%` }
+                    : { left: `${percent}%` };
                 return (
                   <div
                     key={i}
                     className="slider__tick"
-                    style={{ left: `${percent}%` }}
+                    style={style}
                   />
                 );
             })}
         </div>
       </div>
-       {showValue && ( // Переименовал
-         <div className="slider-value"> {/* Обновляем классы */}
-           <span>{currentValue}</span>
-         </div>
-       )}
+      {/* Возвращаем рендеринг значения сюда, после div.slider */}
+      {showValue && (
+          <div className="slider-value">
+            <span>{currentValue}</span>
+          </div>
+      )}
     </div>
   );
 };
 
-export default Slider; // Экспортируем Slider 
+export default Slider; 

@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button'; // Импортируем наш компонент
 
@@ -15,19 +16,22 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     children: { control: 'text', description: 'Содержимое кнопки' },
     variant: {
-      control: { type: 'select' }, // Используем select для выбора варианта
-      options: ['filled', 'outline', 'text'], // Доступные опции
-      description: 'Вариант внешнего вида кнопки',
+      control: { type: 'radio' },
+      options: ['filled', 'outline', 'text'],
+      description: 'Вариант отображения'
     },
     disabled: { control: 'boolean', description: 'Отключает кнопку' },
-    onClick: { action: 'clicked', description: 'Обработчик клика' },
+    loading: { control: 'boolean', description: 'Показывает лоадер и отключает кнопку' },
+    onClick: { action: 'clicked', description: 'Callback при клике' },
     // Добавляем className, чтобы можно было передавать доп. классы через Storybook
     className: { control: 'text', description: 'Дополнительные CSS классы' },
   },
   // Устанавливаем значения по умолчанию для всех историй этого компонента
   args: { 
-    children: 'Button Text',
+    children: 'Нажми меня',
+    variant: 'filled',
     disabled: false,
+    loading: false,
   }
 };
 
@@ -38,6 +42,7 @@ type Story = StoryObj<typeof meta>;
 export const Filled: Story = {
   args: {
     variant: 'filled',
+    children: 'Filled Button',
   },
 };
 
@@ -45,6 +50,7 @@ export const Filled: Story = {
 export const Outline: Story = {
   args: {
     variant: 'outline',
+    children: 'Outline Button',
   },
 };
 
@@ -52,6 +58,7 @@ export const Outline: Story = {
 export const Text: Story = {
   args: {
     variant: 'text',
+    children: 'Text Button',
   },
 };
 
@@ -78,4 +85,26 @@ export const AnotherText: Story = {
     args: {
         children: 'Другой текст',
     },
+};
+
+// <-- Новая история для состояния загрузки -->
+export const Loading: Story = {
+  args: {
+    loading: true,
+    children: 'Загрузка...', // Текст все равно будет скрыт
+  },
+  // Можно добавить рендер функцию для демонстрации переключения
+  // render: (args) => { ... }
+};
+
+// Пример для разных вариантов в состоянии загрузки
+export const LoadingVariants: Story = {
+    name: 'Loading States',
+    render: () => (
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <Button variant="filled" loading>Processing...</Button>
+            <Button variant="outline" loading>Processing...</Button>
+            <Button variant="text" loading>Processing...</Button>
+        </div>
+    )
 }; 

@@ -7,6 +7,7 @@
   font-size: 0.9rem; /* Возвращаем стили контента */
   color: #333;
   z-index: 1010; /* z-index нужен здесь */
+  font-family: inherit; /* <-- Наследуем шрифт */
   /* overflow: hidden; */ /* Можно убрать, если нет проблем */
   transition-property: opacity, transform;
   /* transition-duration: 150ms; */

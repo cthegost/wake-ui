@@ -132,4 +132,93 @@
 }
 .slider--disabled .slider__tick {
      background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* --- Вертикальная ориентация --- */
+
+.slider-container--vertical {
+  width: auto;
+  display: flex;
+  height: 300px;
+  padding: 0 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider--vertical {
+  height: 100%; /* Занимает всю высоту контейнера */
+  width: 20px; /* Ширина для размещения ползунка */
+  flex-direction: column; /* Элементы теперь в колонку */
+  /* Центрируем горизонтально */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Для вертикального слайдера input должен иметь стиль writing-mode */
+/* Это нужно в основном для Firefox, Webkit может справиться и без */
+.slider--vertical .slider__thumb {
+  -webkit-appearance: slider-vertical; /* Для Webkit/Blink */
+  writing-mode: bt-lr; /* bottom-to-top, left-to-right */
+  width: 4px; /* Ширина "невидимой" дорожки input */
+  height: 100%; /* Высота на весь слайдер */
+  margin: 0; /* Убираем авто-отступы */
+  padding: 0 8px; /* Добавляем отступы по бокам для кликабельности */
+  /* z-index остается 3 */
+}
+
+/* Стили ползунка для вертикального слайдера */
+.slider--vertical .slider__thumb::-webkit-slider-thumb {
+  margin-top: 0; /* Убираем вертикальный отступ */
+  margin-left: 0; /* Возвращаем центровку относительно 4px инпута */
+  /* Остальные стили наследуются */
+}
+
+.slider--vertical .slider__thumb::-moz-range-thumb {
+  margin-top: 0; /* Убираем вертикальный отступ */
+  /* Firefox обычно центрирует сам, оставляем без margin-left */
+  /* Остальные стили наследуются */
+}
+
+/* Контейнер дорожки для вертикального слайдера */
+.slider--vertical .slider__track-container {
+  width: 4px; /* Ширина дорожки */
+  height: calc(100% - 16px); /* Высота дорожки = высота слайдера - высота ползунка */
+  left: 50%;
+  top: 8px; /* Половина высоты ползунка */
+  bottom: 8px; /* Половина высоты ползунка */
+  transform: translateX(-50%); /* Центрируем горизонтально */
+  /* z-index остается 1 */
+}
+
+/* Выделенный диапазон для вертикального слайдера */
+.slider--vertical .slider__range {
+  width: 100%;
+  height: auto; /* Высота задается инлайн-стилем */
+  left: 0;
+  bottom: 0; /* Начинается снизу */
+  /* z-index остается 2 */
+}
+
+/* Деления для вертикального слайдера */
+.slider--vertical .slider__tick {
+    width: 8px; /* Ширина деления */
+    height: 1px; /* Высота деления */
+    left: 50%;
+    bottom: auto; /* bottom задается инлайн-стилем */
+    transform: translate(-50%, 50%); /* Центрируем деление */
+    /* z-index остается 1 */
+}
+
+/* Значение для вертикального слайдера */
+.slider-container--vertical .slider-value {
+  margin-top: 8px;  /* Отступ от контейнера слайдера (.slider-container) */
+  width: 20px; /* Задаем ту же ширину, что и у .slider--vertical */
+  margin-left: auto; /* Центрируем сам блок значения */
+  margin-right: auto; /* Центрируем сам блок значения */
+  text-align: center; /* Центрируем текст внутри блока */
+}
+
+/* Стили для отключенного вертикального состояния */
+.slider-container--vertical.slider--disabled {
+    /* Стили аналогичны горизонтальным, можно не дублировать, если нет разницы */
 } 

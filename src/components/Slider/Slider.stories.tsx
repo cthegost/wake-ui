@@ -16,8 +16,14 @@ const meta: Meta<typeof Slider> = {
     value: { control: 'number', description: 'Текущее значение' },
     onChange: { action: 'changed', description: 'Callback при изменении значения' },
     disabled: { control: 'boolean', description: 'Отключает слайдер' },
-    label: { control: 'text', description: 'Лейбл над слайдером' },
+    label: { control: 'text', description: 'Лейбл над/рядом со слайдером' },
     showValue: { control: 'boolean', description: 'Показывать ли текущее значение' },
+    orientation: {
+        control: { type: 'radio' },
+        options: ['horizontal', 'vertical'],
+        description: 'Ориентация слайдера',
+    },
+    className: { control: 'text', description: 'Дополнительный CSS класс' },
   },
   args: {
     min: 0,
@@ -27,6 +33,7 @@ const meta: Meta<typeof Slider> = {
     disabled: false,
     label: 'Выберите значение',
     showValue: true,
+    orientation: 'horizontal',
   }
 };
 
@@ -34,68 +41,57 @@ export default meta;
 
 // --- Истории ---
 
-export const Default: StoryObj<typeof Slider> = {
-  render: (args) => {
-    const [currentValue, setCurrentValue] = useState<number>(args.value);
-    return (
-      <Slider
-        {...args}
-        value={currentValue}
-        onChange={(newValue) => setCurrentValue(newValue)}
-      />
-    );
+const SliderWithState: React.FC<React.ComponentProps<typeof Slider>> = (args) => {
+    const [currentValue, setCurrentValue] = useState(args.value);
+
+    React.useEffect(() => {
+        setCurrentValue(args.value);
+    }, [args.value]);
+
+    const handleChange = (newValue: number) => {
+        setCurrentValue(newValue);
+        args.onChange(newValue);
+    };
+
+    return <Slider {...args} value={currentValue} onChange={handleChange} />;
+};
+
+export const Horizontal: StoryObj<typeof Slider> = {
+  args: {
+    orientation: 'horizontal',
   },
+  render: (args) => <SliderWithState {...args} />,
+};
+
+export const Vertical: StoryObj<typeof Slider> = {
+    args: {
+        orientation: 'vertical',
+        label: 'Вертикальный слайдер',
+    },
+    decorators: [
+        (Story) => (
+          <div style={{ height: '350px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Story />
+          </div>
+        ),
+    ],
+    render: (args) => <SliderWithState {...args} />,
 };
 
 export const WithSteps: StoryObj<typeof Slider> = {
   args: {
-    min: 0,
-    max: 10,
-    step: 2,
-    value: 4,
-    label: 'Слайдер с шагом 2',
+    step: 10,
     showValue: true,
+    label: 'Шаг 10',
   },
-  render: (args) => {
-    const [currentValue, setCurrentValue] = useState<number>(args.value);
-    return (
-      <Slider
-        {...args}
-        value={currentValue}
-        onChange={(newValue) => setCurrentValue(newValue)}
-      />
-    );
-  },
+  render: (args) => <SliderWithState {...args} />,
 };
-
-
-export const WithoutValue: StoryObj<typeof Slider> = {
-  args: {
-    ...Default.args,
-    label: 'Слайдер без значения',
-    showValue: false,
-  },
-  render: (args) => {
-    const [currentValue, setCurrentValue] = useState<number>(args.value);
-    return (
-      <Slider
-        {...args}
-        value={currentValue}
-        onChange={(newValue) => setCurrentValue(newValue)}
-      />
-    );
-  },
-};
-
 
 export const Disabled: StoryObj<typeof Slider> = {
     args: {
-        ...Default.args,
-        label: 'Отключенный слайдер',
-        value: 30,
         disabled: true,
+        value: 25,
+        label: 'Отключенный',
     },
-     render: (args) => {
-        return <Slider {...args} />;
-    },
+    render: (args) => <SliderWithState {...args} />,
 }; 

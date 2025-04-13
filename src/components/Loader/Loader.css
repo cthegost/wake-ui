@@ -1,0 +1,21 @@
+/* Анимация вращения */
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Базовые стили спиннера */
+.loader-spinner {
+  display: inline-block; /* Чтобы занимал место по размеру */
+  border-style: solid;
+  border-color: #007bff; /* Основной цвет */
+  border-bottom-color: transparent; /* Делаем одну сторону прозрачной для эффекта вращения */
+  border-radius: 50%;
+  animation: loader-spin 0.75s linear infinite; /* Применяем анимацию */
+  box-sizing: border-box;
+  /* Размеры и толщина рамки теперь задаются через инлайн-стили */
+}

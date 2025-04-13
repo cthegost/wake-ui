@@ -93,6 +93,7 @@ export const SelectAllExample: StoryObj = {
     };
 
     const handleChildChange = (option: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        
       if (e.target.checked) {
         setSelected([...selected, option]);
       } else {
